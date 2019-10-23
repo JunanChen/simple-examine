@@ -110,7 +110,12 @@ public enum SystemCode {
     /**
      * 数据库操作异常
      */
-    USER_ALREADY_EXISTS(1000023);
+    USER_ALREADY_EXISTS(1000023),
+
+    /**
+     * 系统未知异常
+     */
+    SYSTEM_UNKNOW_EXCEPTION(1000024);
 
     private final Integer value;
 

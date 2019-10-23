@@ -100,7 +100,7 @@ public class TimeUtil {
      * @return
      */
     public static String simpleDateTotimeStamp(String date){
-        return dateTotimeStamp(date, DETA_FORMAT_2);
+        return dateTotimeStamp(date, DETA_FORMAT_1);
     }
 
     /**

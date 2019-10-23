@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdtu.simpleexamine.mapper.PatrolItemMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.PatrolItem">
+        <id column="item_id" property="itemId" />
+        <result column="item_patrol" property="itemPatrol" />
+        <result column="item_question_id" property="itemQuestionId" />
+        <result column="item_question_select" property="itemQuestionSelect" />
+        <result column="item_question_desc" property="itemQuestionDesc" />
+    </resultMap>
+
+    <sql id="baseColumns">
+        item_id, item_patrol, item_question_id, item_question_select, item_question_desc
+    </sql>
+
+    <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from patrol_item
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+</mapper>

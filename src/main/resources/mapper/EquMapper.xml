@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdtu.simpleexamine.mapper.EquMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.Equ">
+        <id column="equ_id" property="equId" />
+        <result column="equ_name" property="equName" />
+        <result column="equ_desc" property="equDesc" />
+        <result column="equ_point" property="equPoint" />
+        <result column="equ_stat" property="equStat" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+    </resultMap>
+
+    <sql id="baseColumns">
+        equ_id, equ_name, equ_desc, equ_point, equ_stat, create_time, create_by, update_time, update_by
+    </sql>
+
+    <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from equ
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+    <select id="selectBySearch" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from equ
+        where equ_id = #{search}
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+</mapper>

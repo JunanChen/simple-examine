@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdtu.simpleexamine.mapper.StaffMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.Staff">
+        <id column="staff_id" property="staffId" />
+        <result column="staff_name" property="staffName" />
+        <result column="staff_password" property="staffPassword" />
+        <result column="staff_img" property="staffImg" />
+        <result column="staff_sex" property="staffSex" />
+        <result column="staff_dept" property="staffDept" />
+        <result column="staff_id_number" property="staffIdNumber" />
+        <result column="staff_address" property="staffAddress" />
+        <result column="staff_tele" property="staffTele" />
+        <result column="staff_stat" property="staffStat" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="baseColumns">
+        staff_id, staff_name, staff_password, staff_img, staff_sex, staff_dept, staff_id_number, staff_address, staff_tele，
+        staff_stat, create_by, create_time, update_by, update_time
+    </sql>
+
+    <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from task
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+    <select id="selectBySearch" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from staff
+        where staff_id = #{search}
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdtu.simpleexamine.mapper.TaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.Task">
+        <result column="task_id" property="taskId" />
+        <result column="task_staff" property="taskStaff" />
+        <result column="task_line" property="taskLine" />
+        <result column="create_time" property="createTime" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="task_desc" property="taskDesc" />
+        <result column="task_stat" property="taskStat" />
+    </resultMap>
+
+    <sql id="baseColumns">
+        task_id, task_staff, task_line, create_time, start_time, end_time, task_desc, task_stat
+    </sql>
+
+    <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from task
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+    <select id="selectBySearch" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from task
+        where task_id = #{search}
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+</mapper>

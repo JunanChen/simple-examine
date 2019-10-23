@@ -1,5 +1,7 @@
 package com.cdtu.simpleexamine.pojo.dto;
 
+import com.cdtu.simpleexamine.enums.SystemCode;
+
 import java.io.Serializable;
 
 /**
@@ -64,5 +66,34 @@ public class SystemBaseDto implements Serializable {
                 ", data=" + data +
                 ", message='" + message + '\'' +
                 '}';
+    }
+
+
+    public static SystemBaseDto getOK(){
+        return getOK(null, null);
+    }
+
+    public static SystemBaseDto getOK(Object data, String message){
+        return new SystemBaseDto(SystemCode.OK.Value(),data, message);
+    }
+
+    public static SystemBaseDto getOK(String message){
+        return getOK(null, message);
+    }
+
+    public static SystemBaseDto getFAIL(){
+        return getFAIL("更新失败");
+    }
+
+    public static SystemBaseDto getFAIL(String message){
+        return new SystemBaseDto(SystemCode.OPERATION_FAILURE.Value(), message);
+    }
+
+    public static SystemBaseDto getDataNull(){
+        return getDataNull("未查询到相关数据！");
+    }
+
+    public static SystemBaseDto getDataNull(String message){
+        return new SystemBaseDto(SystemCode.QUERY_DATA_NULL.Value(), message);
     }
 }

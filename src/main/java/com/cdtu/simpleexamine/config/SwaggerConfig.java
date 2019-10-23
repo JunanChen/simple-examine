@@ -21,7 +21,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@EnableWebMvc
 @ComponentScan(basePackages = "com.cdtu.simpleexamine.web.controller")
 public class SwaggerConfig {
     //apiInfo对象主要是设置我们api文档的标题，描述，访问的地址，创建者等信息
@@ -32,6 +31,6 @@ public class SwaggerConfig {
     //docket容器设置我们的文档基础信息，api包的位置，以及路劲的匹配规则（包含四种：全匹配，不匹配，正则匹配和ant匹配）
     @Bean
     public Docket docket(){
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("com.junan.web.controller")).paths(PathSelectors.any()).build();
+        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("com.cdtu.simpleexamine.web.controller")).paths(PathSelectors.any()).build();
     }
 }

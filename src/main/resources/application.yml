@@ -33,5 +33,20 @@ spring:
     testOnBorrow: false
     testOnReturn: false
 
+#mybatis plus配置
+mybatis-plus:
+  type-aliases-package: com.cdtu.simpleexamine.pojo.dbo
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true           # 开启驼峰转换
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+devtools:
+  livereload:
+    enabled: true #是否支持livereload
+    port: 35729
+  restart:
+    enabled: true #是否支持热部署
+
 
 

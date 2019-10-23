@@ -1,8 +1,11 @@
 package com.cdtu.simpleexamine.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+
+import javax.sql.DataSource;
 
 /**
  * @author junan
@@ -14,9 +17,12 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 @Configuration
 public class TransactionManagerConfig {
 
+    @Autowired
+    private DataSource dataSource;
+
     @Bean("transactionManager")
     public DataSourceTransactionManager manager() {
-        return new DataSourceTransactionManager();
+        return new DataSourceTransactionManager(dataSource);
     }
 
 }

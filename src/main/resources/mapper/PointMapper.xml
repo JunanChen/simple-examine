@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdtu.simpleexamine.mapper.PointMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.Point">
+        <id column="point_id" property="pointId" />
+        <result column="point_name" property="pointName" />
+        <result column="point_desc" property="pointDesc" />
+        <result column="point_line" property="pointLine" />
+        <result column="point_stat" property="pointStat" />
+        <result column="create_time" property="createTime" />
+        <result column="create_by" property="createBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+    </resultMap>
+
+    <sql id="baseColumns">
+        point_id, point_name, point_desc, point_line, point_stat, create_time, create_by, update_time, update_by
+    </sql>
+
+    <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from point
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+    <select id="selectBySearch" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from point
+        where point_id = #{search}
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+</mapper>

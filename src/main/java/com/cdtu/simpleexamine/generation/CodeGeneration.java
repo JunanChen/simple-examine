@@ -18,8 +18,8 @@ public class CodeGeneration {
 
         //全局配置
         GlobalConfig gc = new GlobalConfig();
-        //项目java武力路径
-        gc.setOutputDir("");
+        //项目java物理路径
+        gc.setOutputDir("D:\\Idea-workspace\\simple-examine\\src\\main\\java");
         gc.setFileOverride(true);
         gc.setActiveRecord(true);//不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);//XML二级缓存
@@ -41,14 +41,14 @@ public class CodeGeneration {
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("chenjunan");
-        dsc.setUrl("jdbc:mysql://localhost:3306/employee-manage-system?serverTimezone=GMT%2B8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/simple-examine?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8");
         mpg.setDataSource(dsc);
 
         //策略配置
         StrategyConfig strategy = new StrategyConfig();
         strategy.setTablePrefix(new String[]{});                   //此处可以修改您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);     //表名生成策略
-        strategy.setInclude(new String[]{});                //需要生成的表
+        strategy.setInclude(new String[]{"staff"});                       //需要生成的表
 
         strategy.setSuperServiceClass(null);
         strategy.setSuperServiceImplClass(null);
@@ -62,11 +62,11 @@ public class CodeGeneration {
 
         //包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.junan");
-        pc.setController("controller");
+        pc.setParent("com.cdtu.simpleexamine");
+        pc.setController("web.controller");
         pc.setService("service");
         pc.setMapper("mapper");
-        pc.setEntity("pojo");
+        pc.setEntity("pojo.dbo");
         pc.setXml("mapper.xml");
         mpg.setPackageInfo(pc);
 
