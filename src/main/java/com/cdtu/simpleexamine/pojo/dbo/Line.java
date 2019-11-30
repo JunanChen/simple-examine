@@ -1,5 +1,6 @@
 package com.cdtu.simpleexamine.pojo.dbo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
@@ -18,6 +19,7 @@ public class Line extends Model<Line> {
     /**
      * 线路表索引
      */
+    @TableId
     private String lineId;
 
     /**

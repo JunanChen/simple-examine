@@ -10,4 +10,10 @@
         <result column="role_statu" property="roleStatu" />
     </resultMap>
 
+    <select id="selectListByAdminId" parameterType="String" resultMap="BaseResultMap">
+        select role_name from roles r, admin a, admin_roles ar
+        where r.role_id = ar.role_id and a.admin_id = ar.admin_id
+        and a.admin_id = #{adminId}
+    </select>
+
 </mapper>

@@ -79,4 +79,10 @@ public class AreaController {
         return areaService.update(areaVo);
     }
 
+    @GetMapping("/all/line")
+    @ApiOperation(value = "查询全部区域和对应的线路")
+    public SystemBaseDto allAreaAndLines() {
+        return areaService.allAndLines();
+    }
+
 }

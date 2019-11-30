@@ -13,6 +13,10 @@
         <result column="create_by" property="createBy" />
         <result column="update_time" property="updateTime" />
         <result column="update_by" property="updateBy" />
+        <collection property="lines" ofType="com.cdtu.simpleexamine.pojo.dbo.Line">
+            <id column="line_id" property="lineId" />
+            <result column="line_name" property="lineName" />
+        </collection>
     </resultMap>
 
     <sql id="baseColumns">
@@ -28,6 +32,10 @@
         select <include refid="baseColumns" /> from area
         where area_id = #{search}
         limit #{beginRows}, #{pageSize}
+    </select>
+
+    <select id="selectAllAndLine" resultMap="BaseResultMap">
+        select a.area_id, a.area_name, l.line_id, l.line_name from area a left join line l on a.area_id = l.line_area
     </select>
 
 </mapper>

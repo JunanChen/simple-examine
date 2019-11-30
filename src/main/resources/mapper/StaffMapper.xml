@@ -21,18 +21,18 @@
     </resultMap>
 
     <sql id="baseColumns">
-        staff_id, staff_name, staff_password, staff_img, staff_sex, staff_dept, staff_id_number, staff_address, staff_tele，
+        staff_id, staff_name, staff_password, staff_img, staff_sex, staff_dept, staff_id_number, staff_address, staff_tele,
         staff_stat, create_by, create_time, update_by, update_time
     </sql>
 
     <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
-        select <include refid="baseColumns" /> from task
+        select <include refid="baseColumns" /> from staff
         limit #{beginRows}, #{pageSize}
     </select>
 
     <select id="selectBySearch" resultMap="BaseResultMap">
         select <include refid="baseColumns" /> from staff
-        where staff_id = #{search}
+        where staff_name = #{search}
         limit #{beginRows}, #{pageSize}
     </select>
 

@@ -12,6 +12,8 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * <p>
  *  前端控制器
@@ -37,14 +39,32 @@ public class AdminController {
 
     @PostMapping("/login")
     @ApiOperation(value = "登录", notes = "登录接口")
-    public SystemBaseDto login(AdminVo adminVo) {
-        return adminService.login(adminVo);
+    public SystemBaseDto login(@RequestBody AdminVo adminVo, HttpServletRequest request) {
+        return adminService.login(adminVo, request);
     }
 
-    @PostMapping("/info/get")
+    @PostMapping("/logOut")
+    @ApiOperation(value = "退出登录", notes = "退出登录接口")
+    public SystemBaseDto logOut() {
+        return adminService.logOut();
+    }
+
+    @GetMapping("/info")
     @ApiOperation(value = "获取当前登录的admin基本信息")
     public SystemBaseDto get() {
-        return SystemBaseDto.getOK(new User(), null);
+        return adminService.getInfo();
+    }
+
+    @PostMapping("/info/update")
+    @ApiOperation(value = "更新当前登录的admin基本信息")
+    public SystemBaseDto update(@RequestBody AdminVo adminVo) {
+        return adminService.updateInfo(adminVo);
+    }
+
+    @GetMapping("/info/all")
+    @ApiOperation(value = "获取全部admin基本信息")
+    public SystemBaseDto getAdmins() {
+        return adminService.getAllInfo();
     }
 
     @PostMapping("/disable/{adminId}")
@@ -60,4 +80,11 @@ public class AdminController {
     public SystemBaseDto enable(@PathVariable String adminId) {
         return adminService.enable(adminId);
     }
+
+    @PostMapping("/changePassword")
+    @ApiOperation(value = "修改密码")
+    public SystemBaseDto changePassword(@RequestParam String oldPassword,@RequestParam String newPassword) {
+        return adminService.changePassword(oldPassword, newPassword);
+    }
+
 }

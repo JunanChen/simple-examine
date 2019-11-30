@@ -87,7 +87,7 @@ public class AdminRealm extends AuthorizingRealm {
             throw new LockedAccountException("this admin is banned from login in!");
         //设置盐，用管理员名来做盐
         SimpleAuthenticationInfo simpleAuthenticationInfo =
-                new SimpleAuthenticationInfo(admin, admin.getAdminPwd(), ByteSource.Util.bytes(admin.getAdminName()), getName());
+                new SimpleAuthenticationInfo(admin, admin.getAdminPwd(), ByteSource.Util.bytes(admin.getSalt()), getName());
         return simpleAuthenticationInfo;
     }
 

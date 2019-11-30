@@ -11,7 +11,6 @@ spring:
     password: ${jdbc.mysql.password}
     driver-class-name: ${jdbc.mysql.driver}
     url: ${jdbc.mysql.url}
-
     #配置监控统计拦截的 filters,去掉后监控界面sql无法统计，'wall'用于防火墙
     filters: stat, wall
     #最大活跃数
@@ -33,6 +32,11 @@ spring:
     testOnBorrow: false
     testOnReturn: false
 
+  http:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+
 #mybatis plus配置
 mybatis-plus:
   type-aliases-package: com.cdtu.simpleexamine.pojo.dbo
@@ -48,5 +52,17 @@ devtools:
   restart:
     enabled: true #是否支持热部署
 
+#配置staff头像地址
+system:
+  staff:
+    avatar:
+      location: /static/staffLocation
+  admin:
+    avatar:
+      location: /static/adminLocation
 
-
+#日志配置
+logging:
+  level:
+    root: warn
+#  path:                 #配置日志输出位置

@@ -2,7 +2,10 @@ package com.cdtu.simpleexamine.config;
 
 import com.cdtu.simpleexamine.realm.AdminRealm;
 import com.cdtu.simpleexamine.resolver.ShiroExceptionResolver;
+import com.cdtu.simpleexamine.web.filter.NotLoginFilter;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -12,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import javax.servlet.Filter;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -43,11 +48,16 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("defaultWebSecurityManager")
                                                                    DefaultWebSecurityManager securityManager){
+        securityManager.setSessionManager(getSessionManager());
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+        factoryBean.setLoginUrl("");
         factoryBean.setSecurityManager(securityManager);
-        factoryBean.setLoginUrl("/admin/login");
+        Map<String, Filter> filters = new HashMap<>();
+        filters.put("authc", getNotLoginFilter());
         Map<String,String> filterMap = new LinkedHashMap<>();
         filterMap.put("/swagger-ui.html","anon");            //开放swagger
+        filterMap.put("/admin/login","anon");               //开放登录接口
+        filterMap.put("/admin/logOut","anon");               //开放退出登录接口
         filterMap.put("/swagger/**","anon");
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/swagger-resources/**","anon");
@@ -56,9 +66,11 @@ public class ShiroConfig {
         filterMap.put("/404", "anon");                       //开放404界面
         filterMap.put("/403", "anon");                       //开放403界面
         filterMap.put("/500", "anon");                       //开放500界面
+        filterMap.put("/static/**", "anon");                       //开放静态资源
 
-        filterMap.put("/**", "anon");                       //其他url需要登录才能访问
+        filterMap.put("/**", "authc");                       //其他url需要登录才能访问
         factoryBean.setFilterChainDefinitionMap(filterMap);
+        factoryBean.setFilters(filters);
         return factoryBean;
     }
 
@@ -97,6 +109,20 @@ public class ShiroConfig {
         AdminRealm adminRealm = new AdminRealm();
         adminRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return new AdminRealm();
+    }
+
+
+    private Filter getNotLoginFilter() {
+        return new NotLoginFilter();
+    }
+
+    @Bean(name = "sessionManager")
+    public SessionManager getSessionManager() {
+        DefaultHeaderSessionManager sessionManager = new DefaultHeaderSessionManager();
+        sessionManager.setSessionDAO(new EnterpriseCacheSessionDAO());
+        sessionManager.setGlobalSessionTimeout(3600000);
+        sessionManager.setSessionValidationInterval(3600000);
+        return sessionManager;
     }
 
 

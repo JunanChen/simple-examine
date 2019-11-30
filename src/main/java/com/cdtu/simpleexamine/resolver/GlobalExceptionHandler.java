@@ -1,6 +1,7 @@
 package com.cdtu.simpleexamine.resolver;
 
 import com.cdtu.simpleexamine.enums.SystemCode;
+import com.cdtu.simpleexamine.exception.AdminNotLoginException;
 import com.cdtu.simpleexamine.exception.SystemBaseException;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
 import org.apache.shiro.ShiroException;
@@ -88,15 +89,20 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public SystemBaseDto doHandleException(Exception e){
 
+        e.printStackTrace();
+
         /**
          * shiro未放行的URL访问异常
          */
-        if(e instanceof HttpRequestMethodNotSupportedException) {
-            log.error("shiro 未放行的URL");
-            return new SystemBaseDto(SystemCode.FORBIDDEN.Value(), "用户未登录，无法访问！");
+        if(e instanceof AdminNotLoginException) {
+            log.error("用户未登录!");
+            return new SystemBaseDto(SystemCode.NOT_LOGIN.Value(), "用户未登录，无法访问！");
+        } else if(e instanceof HttpRequestMethodNotSupportedException) {
+            log.error("用户请求方式错误!");
+            return new SystemBaseDto(SystemCode.BAD_REQUEST.Value(), "请求方式错误！");
         } else {
             log.error("出现未知异常，原因如下：" + e.getMessage());
-            return new SystemBaseDto(SystemCode.SYSTEM_UNKNOW_EXCEPTION.Value(), "系统出现未知异常！");
+            return new SystemBaseDto(SystemCode.SYSTEM_UNKNOW_EXCEPTION.Value(), "系统出现未知异常，操作失败！");
         }
     }
 }

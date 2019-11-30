@@ -41,5 +41,7 @@ public interface AreaService extends IService<Area> {
 
     SystemBaseDto all();
 
+    SystemBaseDto allAndLines();
+
 
 }

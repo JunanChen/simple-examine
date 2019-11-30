@@ -1,5 +1,6 @@
 package com.cdtu.simpleexamine.pojo.dbo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
@@ -18,6 +19,7 @@ public class Task extends Model<Task> {
     /**
      * 任务编号
      */
+    @TableId
     private String taskId;
 
     /**
@@ -34,6 +36,9 @@ public class Task extends Model<Task> {
      * 任务发布时间
      */
     private Integer createTime;
+
+
+    private String createBy;
 
     private Integer startTime;
 
@@ -106,22 +111,17 @@ public class Task extends Model<Task> {
         this.taskStat = taskStat;
     }
 
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
     @Override
     protected Serializable pkVal() {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "Task{" +
-            "taskId=" + taskId +
-            ", taskStaff=" + taskStaff +
-            ", taskLine=" + taskLine +
-            ", createTime=" + createTime +
-            ", startTime=" + startTime +
-            ", endTime=" + endTime +
-            ", taskDesc=" + taskDesc +
-            ", taskStat=" + taskStat +
-        "}";
-    }
 }

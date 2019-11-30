@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdtu.simpleexamine.mapper.LogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.Log">
+        <id column="log_id" property="logId" />
+        <result column="log_time" property="logTime" />
+        <result column="log_url" property="logUrl" />
+        <result column="log_ip" property="logIp" />
+        <result column="log_method" property="logMethod" />
+        <result column="log_admin" property="logAdmin" />
+        <result column="log_usetime" property="logUsetime" />
+        <result column="log_desc" property="logDesc" />
+        <result column="log_stat" property="logStat" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="BaseColumnList">
+        log_id, log_time, log_url, log_ip, log_method, log_admin, log_usetime, log_desc, log_stat
+    </sql>
+
+    <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
+        select <include refid="BaseColumnList" /> from log order by log_time desc
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+    <select id="selectBySearch" resultMap="BaseResultMap">
+        select <include refid="BaseColumnList" /> from log
+        where log_id = #{search} order by log_time desc
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+</mapper>

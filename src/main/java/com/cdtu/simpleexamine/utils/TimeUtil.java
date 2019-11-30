@@ -104,6 +104,15 @@ public class TimeUtil {
     }
 
     /**
+     * 日期转时间戳
+     * @param date
+     * @return
+     */
+    public static Integer dateToStampWithSimple(String date){
+        return Integer.valueOf(dateTotimeStamp(date, DETA_FORMAT_2));
+    }
+
+    /**
      * 返回当前年月日（yyMMdd）
      *
      * @return
@@ -111,5 +120,7 @@ public class TimeUtil {
     public static String getDate() {
         return timeStampToSimpleDate(String.valueOf(getTimeStamp()), DETA_FORMAT_4);
     }
+
+
 
 }

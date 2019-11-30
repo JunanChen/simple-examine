@@ -94,9 +94,7 @@ public class PatrolServiceImpl extends ServiceImpl<PatrolMapper, Patrol> impleme
     @Override
     public SystemBaseDto update(PatrolVo patrolVo) {
         Patrol patrol = patrolVoToPatrol(patrolVo);
-        UpdateWrapper<Patrol> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("patrol_id",patrol.getPatrolId());
-        int i = patrolMapper.update(patrol, updateWrapper);
+        int i = patrolMapper.updateById(patrol);
         return checkUpdate(i);
     }
 

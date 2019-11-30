@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cdtu.simpleexamine.exception.BatchDeleteException;
 import com.cdtu.simpleexamine.pojo.Page;
+import com.cdtu.simpleexamine.pojo.dbo.Admin;
 import com.cdtu.simpleexamine.pojo.dbo.Equ;
 import com.cdtu.simpleexamine.mapper.EquMapper;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cdtu.simpleexamine.utils.TimeUtil;
 import com.cdtu.simpleexamine.utils.UUIDUtil;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,9 +82,11 @@ public class EquServiceImpl extends ServiceImpl<EquMapper, Equ> implements EquSe
 
     @Override
     public SystemBaseDto saveEqu(EquVo equVo) {
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         Equ equ = equVoToEqu(equVo);
         equ.setEquId(UUIDUtil.get32UUID());
         equ.setCreateTime((int) TimeUtil.getTimeStamp());
+        equ.setCreateBy(admin.getAdminId());
         int insert = equMapper.insert(equ);
         return checkUpdate(insert);
     }
@@ -109,12 +113,12 @@ public class EquServiceImpl extends ServiceImpl<EquMapper, Equ> implements EquSe
 
     @Override
     public SystemBaseDto update(EquVo equVo) {
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         Equ equ = equVoToEqu(equVo);
         equ.setUpdateTime((int) TimeUtil.getTimeStamp());
+        equ.setUpdateBy(admin.getAdminId());
         equ.setCreateTime(null);
-        UpdateWrapper<Equ> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("equ_id",equ.getEquId());
-        int i = equMapper.update(equ, updateWrapper);
+        int i = equMapper.updateById(equ);
         return checkUpdate(i);
     }
 

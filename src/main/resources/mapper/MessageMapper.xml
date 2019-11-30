@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdtu.simpleexamine.mapper.MessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.Message">
+        <id column="mess_id" property="messId" />
+        <result column="mess_name" property="messName" />
+        <result column="mess_desc" property="messDesc" />
+        <result column="mess_time" property="messTime" />
+        <result column="mess_stat" property="messStat" />
+    </resultMap>
+
+    <sql id="baseColumns">
+        mess_id, mess_name, mess_desc, mess_time, mess_stat
+    </sql>
+
+    <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from message
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+    <select id="selectBySearch" resultMap="BaseResultMap">
+        select <include refid="baseColumns" /> from message
+        where mess_id = #{search}
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+</mapper>

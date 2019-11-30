@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdtu.simpleexamine.mapper.EquFailMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.EquFail">
+        <id column="fail_id" property="failId" />
+        <result column="fail_equ" property="failEqu" />
+        <result column="fail_appear_time" property="failAppearTime" />
+        <result column="fail_deal_time" property="failDealTime" />
+        <result column="deal_by" property="dealBy" />
+        <result column="fail_stat" property="failStat" />
+        <association property="equ" javaType="com.cdtu.simpleexamine.pojo.dbo.Equ">
+            <id column="equ_id" property="equId" />
+            <result column="equ_name" property="equName" />
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fail_id, fail_equ, fail_appear_time, fail_deal_time,deal_by, fail_stat
+    </sql>
+
+    <select id="selectByPage" parameterType="com.cdtu.simpleexamine.pojo.Page" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />, e.equ_id, e.equ_name from equ_fail ef ,equ e
+        where ef.fail_equ = e.equ_id order by ef.fail_appear_time desc
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+    <select id="selectBySearch" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />, e.equ_id, e.equ_name from equ_fail ef ,equ e
+        where equ_id = #{search} and ef.fail_equ = e.equ_id order by ef.fail_appear_time desc
+        limit #{beginRows}, #{pageSize}
+    </select>
+
+</mapper>

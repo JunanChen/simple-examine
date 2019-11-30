@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cdtu.simpleexamine.exception.BatchDeleteException;
 import com.cdtu.simpleexamine.pojo.Page;
+import com.cdtu.simpleexamine.pojo.dbo.Admin;
 import com.cdtu.simpleexamine.pojo.dbo.Area;
 import com.cdtu.simpleexamine.mapper.AreaMapper;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cdtu.simpleexamine.utils.TimeUtil;
 import com.cdtu.simpleexamine.utils.UUIDUtil;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +82,9 @@ public class AreaServiceImpl extends ServiceImpl<AreaMapper, Area> implements Ar
 
     @Override
     public SystemBaseDto saveArea(AreaVo areaVo) {
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         Area area = areaVoToArea(areaVo);
+        area.setCreateBy(admin.getAdminId());
         area.setAreaId(UUIDUtil.get32UUID());
         area.setCreateTime((int) TimeUtil.getTimeStamp());
         int insert = areaMapper.insert(area);
@@ -109,7 +113,9 @@ public class AreaServiceImpl extends ServiceImpl<AreaMapper, Area> implements Ar
 
     @Override
     public SystemBaseDto update(AreaVo areaVo) {
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         Area area = areaVoToArea(areaVo);
+        area.setUpdateBy(admin.getAdminId());
         area.setUpdateTime((int) TimeUtil.getTimeStamp());
         area.setCreateTime(null);
         UpdateWrapper<Area> updateWrapper = new UpdateWrapper<>();
@@ -122,6 +128,12 @@ public class AreaServiceImpl extends ServiceImpl<AreaMapper, Area> implements Ar
     public SystemBaseDto all() {
         List<Area> areas = areaMapper.selectList(null);
         return checkList(areas, false);
+    }
+
+    @Override
+    public SystemBaseDto allAndLines() {
+        List<Area> areas = areaMapper.selectAllAndLine();
+        return checkList(areas);
     }
 
     private List<AreaVo> areaToAreaVo(List<Area> areas) {

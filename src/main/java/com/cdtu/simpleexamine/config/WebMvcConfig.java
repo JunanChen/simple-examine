@@ -19,13 +19,16 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
 
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
+
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:8808").allowCredentials(true).allowedMethods("*")
+        registry.addMapping("/**").allowedOrigins("http://localhost:8808").allowCredentials(true).allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
                 .maxAge(3600);
     }
 }

@@ -36,6 +36,8 @@ public class TaskVo extends Model<TaskVo> {
      */
     private String createTime;
 
+    private String createBy;
+
     private String startTime;
 
     private String endTime;
@@ -116,17 +118,11 @@ public class TaskVo extends Model<TaskVo> {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "Task{" +
-            "taskId=" + taskId +
-            ", taskStaff=" + taskStaff +
-            ", taskLine=" + taskLine +
-            ", createTime=" + createTime +
-            ", startTime=" + startTime +
-            ", endTime=" + endTime +
-            ", taskDesc=" + taskDesc +
-            ", taskStat=" + taskStat +
-        "}";
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 }

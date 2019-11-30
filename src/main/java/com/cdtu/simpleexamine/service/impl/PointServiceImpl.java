@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cdtu.simpleexamine.exception.BatchDeleteException;
 import com.cdtu.simpleexamine.pojo.Page;
+import com.cdtu.simpleexamine.pojo.dbo.Admin;
 import com.cdtu.simpleexamine.pojo.dbo.Point;
 import com.cdtu.simpleexamine.mapper.PointMapper;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cdtu.simpleexamine.utils.TimeUtil;
 import com.cdtu.simpleexamine.utils.UUIDUtil;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,9 +83,13 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
 
     @Override
     public SystemBaseDto savePoint(PointVo pointVo) {
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         Point point = pointVoToPoint(pointVo);
-        point.setPointId(UUIDUtil.get32UUID());
         point.setCreateTime((int) TimeUtil.getTimeStamp());
+        point.setCreateBy(admin.getAdminId());
+        point.setUpdateTime((int) TimeUtil.getTimeStamp());
+        point.setUpdateBy(admin.getAdminId());
+        point.setPointId(UUIDUtil.get32UUID());
         int insert = pointMapper.insert(point);
         return checkUpdate(insert);
     }
@@ -110,12 +116,12 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
 
     @Override
     public SystemBaseDto update(PointVo pointVo) {
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         Point point = pointVoToPoint(pointVo);
         point.setUpdateTime((int) TimeUtil.getTimeStamp());
+        point.setUpdateBy(admin.getAdminId());
         point.setCreateTime(null);
-        UpdateWrapper<Point> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("point_id",point.getPointId());
-        int i = pointMapper.update(point, updateWrapper);
+        int i = pointMapper.updateById(point);
         return checkUpdate(i);
     }
 

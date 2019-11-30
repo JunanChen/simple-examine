@@ -21,4 +21,6 @@ public interface AreaMapper extends BaseMapper<Area> {
 
     List<Area> selectBySearch(String search, Integer beginRows, Integer pageSize);
 
+    List<Area> selectAllAndLine();
+
 }

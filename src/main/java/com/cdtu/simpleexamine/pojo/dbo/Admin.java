@@ -1,6 +1,9 @@
 package com.cdtu.simpleexamine.pojo.dbo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +14,7 @@ import java.io.Serializable;
  * @author junan
  * @since 2019-10-15
  */
+@Data
 public class Admin extends Model<Admin> {
 
     private static final long serialVersionUID = 1L;
@@ -18,6 +22,7 @@ public class Admin extends Model<Admin> {
     /**
      * 管理员表
      */
+    @TableId
     private String adminId;
 
     /**
@@ -43,65 +48,34 @@ public class Admin extends Model<Admin> {
     /**
      * 真实姓名
      */
-    private String adminRealname;
+    private String realName;
 
-    public String getAdminId() {
-        return adminId;
-    }
+    /**
+     * admin头像地址
+     */
+    private String img;
 
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
-    }
-    public String getAdminName() {
-        return adminName;
-    }
+    /**
+     * admin描述
+     */
+    private String adminDesc;
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
-    }
-    public String getAdminPwd() {
-        return adminPwd;
-    }
+    /**
+     * 最后登录时间
+     */
+    private Integer lastLoginTime;
 
-    public void setAdminPwd(String adminPwd) {
-        this.adminPwd = adminPwd;
-    }
-    public Integer getAdminPower() {
-        return adminPower;
-    }
+    /**
+     * 最后登录时间
+     */
+    private String salt;
 
-    public void setAdminPower(Integer adminPower) {
-        this.adminPower = adminPower;
-    }
-    public Integer getAdminStatu() {
-        return adminStatu;
-    }
+    private Integer sex;
+    private Integer birthday;
+    private String province;
+    private String city;
+    private String county;
+    private String email;
+    private String tele;
 
-    public void setAdminStatu(Integer adminStatu) {
-        this.adminStatu = adminStatu;
-    }
-    public String getAdminRealname() {
-        return adminRealname;
-    }
-
-    public void setAdminRealname(String adminRealname) {
-        this.adminRealname = adminRealname;
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return this.adminId;
-    }
-
-    @Override
-    public String toString() {
-        return "Admin{" +
-            "adminId=" + adminId +
-            ", adminName=" + adminName +
-            ", adminPwd=" + adminPwd +
-            ", adminPower=" + adminPower +
-            ", adminStatu=" + adminStatu +
-            ", adminRealname=" + adminRealname +
-        "}";
-    }
 }

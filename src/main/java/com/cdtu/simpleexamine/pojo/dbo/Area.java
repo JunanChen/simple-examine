@@ -1,7 +1,12 @@
 package com.cdtu.simpleexamine.pojo.dbo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -15,6 +20,7 @@ public class Area extends Model<Area> {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId
     private String areaId;
 
     /**
@@ -38,6 +44,9 @@ public class Area extends Model<Area> {
     private Integer updateTime;
 
     private String updateBy;
+
+    @TableField(exist = false)
+    private List<Line> lines;
 
     public String getAreaId() {
         return areaId;
@@ -103,6 +112,14 @@ public class Area extends Model<Area> {
         this.updateBy = updateBy;
     }
 
+    public List<Line> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<Line> lines) {
+        this.lines = lines;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.areaId;
@@ -111,15 +128,16 @@ public class Area extends Model<Area> {
     @Override
     public String toString() {
         return "Area{" +
-            "areaId=" + areaId +
-            ", areaName=" + areaName +
-            ", areaAddress=" + areaAddress +
-            ", areaDesc=" + areaDesc +
-            ", areaStat=" + areaStat +
-            ", createTime=" + createTime +
-            ", createBy=" + createBy +
-            ", updateTime=" + updateTime +
-            ", updateBy=" + updateBy +
-        "}";
+                "areaId='" + areaId + '\'' +
+                ", areaName='" + areaName + '\'' +
+                ", areaAddress='" + areaAddress + '\'' +
+                ", areaDesc='" + areaDesc + '\'' +
+                ", areaStat=" + areaStat +
+                ", createTime=" + createTime +
+                ", createBy='" + createBy + '\'' +
+                ", updateTime=" + updateTime +
+                ", updateBy='" + updateBy + '\'' +
+                ", lines=" + lines +
+                '}';
     }
 }

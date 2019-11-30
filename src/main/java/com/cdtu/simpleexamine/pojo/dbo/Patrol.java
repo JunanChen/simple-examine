@@ -1,5 +1,6 @@
 package com.cdtu.simpleexamine.pojo.dbo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 
@@ -18,6 +19,7 @@ public class Patrol extends Model<Patrol> {
     /**
      * 巡检报告表编号
      */
+    @TableId
     private String patrolId;
 
     /**

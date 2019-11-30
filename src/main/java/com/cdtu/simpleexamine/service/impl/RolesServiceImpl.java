@@ -36,7 +36,7 @@ public class RolesServiceImpl extends ServiceImpl<RolesMapper, Roles> implements
 
     @Override
     public List<Roles> getByAdminId(String adminId) {
-        return rolesMapper.selectList(null);
+        return rolesMapper.selectListByAdminId(adminId);
     }
 
     @Override

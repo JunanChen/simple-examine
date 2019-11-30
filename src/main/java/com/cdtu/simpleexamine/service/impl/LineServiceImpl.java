@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cdtu.simpleexamine.exception.BatchDeleteException;
 import com.cdtu.simpleexamine.pojo.Page;
+import com.cdtu.simpleexamine.pojo.dbo.Admin;
 import com.cdtu.simpleexamine.pojo.dbo.Line;
 import com.cdtu.simpleexamine.mapper.LineMapper;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
@@ -13,9 +14,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cdtu.simpleexamine.utils.TimeUtil;
 import com.cdtu.simpleexamine.utils.UUIDUtil;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,9 +83,13 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements Li
 
     @Override
     public SystemBaseDto saveLine(LineVo lineVo) {
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         Line line = lineVoToLine(lineVo);
         line.setLineId(UUIDUtil.get32UUID());
         line.setCreateTime((int) TimeUtil.getTimeStamp());
+        line.setCreateBy(admin.getAdminId());
+        line.setUpdateTime((int) TimeUtil.getTimeStamp());
+        line.setUpdateBy(admin.getAdminId());
         int insert = lineMapper.insert(line);
         return checkUpdate(insert);
     }
@@ -109,18 +116,20 @@ public class LineServiceImpl extends ServiceImpl<LineMapper, Line> implements Li
 
     @Override
     public SystemBaseDto update(LineVo lineVo) {
+        Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         Line line = lineVoToLine(lineVo);
         line.setUpdateTime((int) TimeUtil.getTimeStamp());
+        line.setUpdateBy(admin.getAdminId());
         line.setCreateTime(null);
-        UpdateWrapper<Line> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("line_id",line.getLineId());
-        int i = lineMapper.update(line, updateWrapper);
+        int i = lineMapper.updateById(line);
         return checkUpdate(i);
     }
 
     @Override
     public SystemBaseDto all() {
-        List<Line> lines = lineMapper.selectList(null);
+        QueryWrapper<Line> queryWrapper = new QueryWrapper();
+        queryWrapper.select("line_id", "line_name", "line_desc");
+        List<Line> lines = lineMapper.selectList(queryWrapper);
         return checkList(lines, false);
     }
 

@@ -16,14 +16,19 @@ public enum SystemCode {
     OPERATION_FAILURE(201),
 
     /**
-     * 请求错误
+     * 用户未登录
      */
-    BAD_REQUEST(400),
+    NOT_LOGIN(400),
 
     /**
      * 没有权限
      */
     UNAUTHORIZED(401),
+
+    /**
+     * bad request
+     */
+    BAD_REQUEST(402),
 
     /**
      * 得到权限，但访问被禁止

@@ -15,31 +15,23 @@ import java.io.Serializable;
 @Data
 public class AdminVo implements Serializable {
 
-    private String username;
+    private String adminName;
     private String password;
+    private String realName;
     private String identifyCode;
+    private String sessionId;
+    private String ipAddress;
+    private String img;
+    private String lastLoginTime;
+    private String role;
+    private Integer sex;
+    private String birthday;
+    private String province;
+    private String city;
+    private String county;
+    private String email;
+    private String tele;
+    private String adminDesc;
+    private String adminId;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getIdentifyCode() {
-        return identifyCode;
-    }
-
-    public void setIdentifyCode(String identifyCode) {
-        this.identifyCode = identifyCode;
-    }
 }

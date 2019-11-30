@@ -15,9 +15,7 @@
         <where>
             p.permission_id = rp.permission_id and a.admin_id = ar.admin_id and ar.role_id = r.role_id
             and rp.role_id = r.role_id
-            <if test="adminId != null">
-                and a.admin_id = #{adminI}
-            </if>
+            and a.admin_id = #{adminId}
         </where>
     </select>
 
@@ -27,9 +25,7 @@
         <where>
              p.permission_id = rp.permission_id
              and r.role_id = rp.role_id
-             <if test="roleId != null">
-                and r.role_id = #{roleId}
-             </if>
+             and r.role_id = #{roleId}
         </where>
     </select>
 

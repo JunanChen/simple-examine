@@ -42,5 +42,4 @@ public interface LineService extends IService<Line> {
 
     SystemBaseDto all();
 
-
 }

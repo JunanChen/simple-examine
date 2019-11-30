@@ -9,7 +9,18 @@
         <result column="admin_pwd" property="adminPwd" />
         <result column="admin_power" property="adminPower" />
         <result column="admin_statu" property="adminStatu" />
-        <result column="admin_realname" property="adminRealname" />
+        <result column="real_name" property="realName" />
+        <result column="img" property="img" />
+        <result column="admin_desc" property="adminDesc" />
+        <result column="tele" property="tele" />
+        <result column="birthday" property="birthday" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="county" property="county" />
+        <result column="email" property="email" />
+        <result column="sex" property="sex" />
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="salt" property="salt" />
     </resultMap>
 
     <select id="selectByUsername" parameterType="String" resultMap="BaseResultMap">

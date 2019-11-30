@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cdtu.simpleexamine.exception.BatchDeleteException;
 import com.cdtu.simpleexamine.pojo.Page;
+import com.cdtu.simpleexamine.pojo.dbo.Admin;
 import com.cdtu.simpleexamine.pojo.dbo.Task;
 import com.cdtu.simpleexamine.mapper.TaskMapper;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
@@ -13,9 +14,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cdtu.simpleexamine.utils.TimeUtil;
 import com.cdtu.simpleexamine.utils.UUIDUtil;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.Subject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,9 +84,11 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
 
     @Override
     public SystemBaseDto saveTask(TaskVo taskVo) {
+        Admin admin = (Admin)SecurityUtils.getSubject().getPrincipal();
         Task task = taskVoToTask(taskVo);
         task.setTaskId(UUIDUtil.get32UUID());
         task.setCreateTime((int) TimeUtil.getTimeStamp());
+        task.setCreateBy(admin.getAdminId());
         int insert = taskMapper.insert(task);
         return checkUpdate(insert);
     }
@@ -111,10 +116,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
     @Override
     public SystemBaseDto update(TaskVo taskVo) {
         Task task = taskVoToTask(taskVo);
-        task.setCreateTime(null);
-        UpdateWrapper<Task> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("task_id",task.getTaskId());
-        int i = taskMapper.update(task, updateWrapper);
+        int i = taskMapper.updateById(task);
         return checkUpdate(i);
     }
 
@@ -124,7 +126,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
             TaskVo taskVo = new TaskVo();
             try {
                 BeanUtils.copyProperties(taskVo, task);
-                taskVo.setCreateTime(TimeUtil.timeStampToDate(task.getCreateTime() + "", null));
                 taskVo.setStartTime(TimeUtil.timeStampToDate(task.getStartTime() + "", null));
                 taskVo.setEndTime(TimeUtil.timeStampToDate(task.getEndTime() + "", null));
                 taskVos.add(taskVo);
