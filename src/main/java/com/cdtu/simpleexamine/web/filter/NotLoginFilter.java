@@ -48,13 +48,18 @@ public class NotLoginFilter extends UserFilter {
      */
     @Override
     protected void saveRequestAndRedirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
+
+        HttpServletRequest request1 = (HttpServletRequest) request;
+        System.out.println(request1.getRequestURL());
+//        if(!request1.getRequestURL().contains("druid")) {
         saveRequest(request);
-        setHeader((HttpServletRequest) request,(HttpServletResponse) response);
+        setHeader((HttpServletRequest) request, (HttpServletResponse) response);
         PrintWriter out = response.getWriter();
         SystemBaseDto systemBaseDto = new SystemBaseDto(SystemCode.NOT_LOGIN.Value(), "用户未登录！");
         out.println(FastJsonUtil.toJSONString(systemBaseDto));
         out.flush();
         out.close();
+//        }
     }
 
     /**
@@ -62,12 +67,12 @@ public class NotLoginFilter extends UserFilter {
      */
     private void setHeader(HttpServletRequest request,HttpServletResponse response){
         //跨域的header设置
-        response.setHeader("Access-control-Allow-Origin", request.getHeader("Origin"));
-        response.setHeader("Access-Control-Allow-Methods", request.getMethod());
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
-        //防止乱码，适用于传输JSON数据
-        response.setHeader("Content-Type","application/json;charset=UTF-8");
+//        response.setHeader("Access-control-Allow-Origin", request.getHeader("Origin"));
+//        response.setHeader("Access-Control-Allow-Methods", request.getMethod());
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
+//        response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
+//        //防止乱码，适用于传输JSON数据
+//        response.setHeader("Content-Type","application/json;charset=UTF-8");
         response.setStatus(HttpStatus.OK.value());
     }
 }

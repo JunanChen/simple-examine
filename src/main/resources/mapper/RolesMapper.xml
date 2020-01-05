@@ -6,14 +6,27 @@
     <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.Roles">
         <id column="role_id" property="roleId" />
         <result column="role_name" property="roleName" />
+        <result column="role_code" property="roleCode"/>
+        <result column="role_order" property="roleOrder"/>
         <result column="role_desc" property="roleDesc" />
         <result column="role_statu" property="roleStatu" />
+        <result column="update_time" property="updateTime"/>
+        <collection property="permissions" ofType="java.lang.Integer" javaType="java.util.List">
+            <result column="permission_id"></result>
+        </collection>
     </resultMap>
 
-    <select id="selectListByAdminId" parameterType="String" resultMap="BaseResultMap">
-        select role_name from roles r, admin a, admin_roles ar
+    <select id="selectListByAdminId" parameterType="String" resultType="com.cdtu.simpleexamine.pojo.dbo.Roles">
+        select role_name,role_code from roles r, admin a, admin_roles ar
         where r.role_id = ar.role_id and a.admin_id = ar.admin_id
         and a.admin_id = #{adminId}
+    </select>
+
+    <select id="selectByPage" resultMap="BaseResultMap">
+        select r.*, rp.permission_id permission_id
+        from roles r
+        left join roles_permission rp on r.role_id = rp.role_id
+        ${ew.customSqlSegment}
     </select>
 
 </mapper>

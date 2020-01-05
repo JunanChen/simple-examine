@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
  * @author junan
  * @date 19-3-10 下午1:52
  */
-@Component
+//@Component
+@Deprecated
 public class SystemErrorPageRegister implements ErrorPageRegistrar {
 
     @Override

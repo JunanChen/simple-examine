@@ -1,27 +1,26 @@
 package com.cdtu.simpleexamine.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cdtu.simpleexamine.enums.SystemCode;
 import com.cdtu.simpleexamine.pojo.dbo.Admin;
 import com.cdtu.simpleexamine.mapper.AdminMapper;
+import com.cdtu.simpleexamine.pojo.dbo.AdminRoles;
 import com.cdtu.simpleexamine.pojo.dbo.Roles;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
 import com.cdtu.simpleexamine.pojo.vo.AdminVo;
-import com.cdtu.simpleexamine.realm.AdminRealm;
+import com.cdtu.simpleexamine.service.AdminRolesService;
 import com.cdtu.simpleexamine.service.AdminService;
 import com.cdtu.simpleexamine.service.RolesService;
 import com.cdtu.simpleexamine.utils.IpUtil;
 import com.cdtu.simpleexamine.utils.MD5util;
 import com.cdtu.simpleexamine.utils.TimeUtil;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -48,6 +46,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private RolesService rolesService;
+
+    @Autowired
+    private AdminRolesService adminRolesService;
 
     @Resource(name = "adminMD5Matcher")
     private HashedCredentialsMatcher matcher;
@@ -159,6 +160,62 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = adminVoToAdmin(adminVo);
         int i = adminMapper.updateById(admin);
         return checkUpdate(i);
+    }
+
+    @Override
+    public SystemBaseDto page(Integer pageNo, Integer pageSize, String search) {
+        Page<Admin> page = new Page<>(pageNo, pageSize);
+        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+        if (search != null && !search.isEmpty()) {
+            queryWrapper.eq("admin_name", search);
+        }
+        IPage<Admin> adminIPage = adminMapper.selectByPage(page, queryWrapper);
+        return SystemBaseDto.getOK(adminIPage, null);
+    }
+
+    @Override
+    public SystemBaseDto save(Admin admin) {
+        admin.setSalt(MD5util.getRandomSalt());
+        admin.setAdminPwd(MD5util.encryptString(admin.getAdminPwd(), admin.getSalt()));
+        int insert = adminMapper.insert(admin);
+        List<Integer> roles = admin.getRoles();
+        if (roles != null && roles.size() > 0) {
+            QueryWrapper<AdminRoles> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("admin_id", admin.getAdminId());
+            adminRolesService.deleteByWrapper(queryWrapper);
+            for (Integer role : roles) {
+                AdminRoles adminRoles = new AdminRoles();
+                adminRoles.setAdminId(admin.getAdminId());
+                adminRoles.setRoleId(role);
+                adminRolesService.save(adminRoles);
+            }
+        }
+        return checkUpdate(insert);
+    }
+
+    @Override
+    public SystemBaseDto update(Admin admin) {
+        admin.setAdminPwd(null);
+        admin.setSalt(null);
+        List<Integer> roles = admin.getRoles();
+        if (roles != null && roles.size() > 0) {
+            QueryWrapper<AdminRoles> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("admin_id", admin.getAdminId());
+            adminRolesService.deleteByWrapper(queryWrapper);
+            for (Integer role : roles) {
+                AdminRoles adminRoles = new AdminRoles();
+                adminRoles.setAdminId(admin.getAdminId());
+                adminRoles.setRoleId(role);
+                adminRolesService.save(adminRoles);
+            }
+        }
+        return updateById(admin);
+    }
+
+    @Override
+    public SystemBaseDto deleteById(String adminId) {
+        int delete = adminMapper.deleteById(adminId);
+        return checkUpdate(delete);
     }
 
     private SystemBaseDto checkUpdate(int i) {

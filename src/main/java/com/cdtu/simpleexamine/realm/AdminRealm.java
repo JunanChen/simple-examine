@@ -57,7 +57,7 @@ public class AdminRealm extends AuthorizingRealm {
         //加载角色
         List<Roles> rolesList = rolesService.getByAdminId(admin.getAdminId());
         for (Roles roles : rolesList) {
-            info.addRole(roles.getRoleName());
+            info.addRole(roles.getRoleCode());
         }
         //加载权限
         List<Permission> permissionList = permissionService.getByAdminId(admin.getAdminId());

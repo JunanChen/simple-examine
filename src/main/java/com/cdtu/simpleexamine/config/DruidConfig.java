@@ -18,7 +18,8 @@ import javax.sql.DataSource;
  * @disc    druid数据源配置
  * @date 2019/10/14 16:55
  */
-@Configuration
+//@Configuration
+@Deprecated
 public class DruidConfig {
 
     @ConfigurationProperties(prefix = "spring.datasource")

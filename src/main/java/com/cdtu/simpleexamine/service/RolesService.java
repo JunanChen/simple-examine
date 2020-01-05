@@ -34,4 +34,12 @@ public interface RolesService extends IService<Roles> {
     @Transactional(readOnly = false)
     SystemBaseDto addPermissions(Integer roleId, List<Permission> permissions);
 
+    SystemBaseDto search(Integer pageNo, Integer pageSize, String search);
+
+    @Transactional
+    SystemBaseDto update(Roles roles);
+
+    @Transactional
+    SystemBaseDto deleteById(Integer roleId);
+
 }

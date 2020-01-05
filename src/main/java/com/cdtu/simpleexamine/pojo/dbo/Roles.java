@@ -1,9 +1,17 @@
 package com.cdtu.simpleexamine.pojo.dbo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.cdtu.simpleexamine.serializer.UnixConverterDeSerializer;
+import com.cdtu.simpleexamine.serializer.UnixConverterSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Data;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,6 +21,7 @@ import java.io.Serializable;
  * @author junan
  * @since 2019-10-15
  */
+@Data
 public class Roles extends Model<Roles> {
 
     private static final long serialVersionUID = 1L;
@@ -31,51 +40,25 @@ public class Roles extends Model<Roles> {
     private String roleDesc;
 
     /**
+     * 排序号
+     */
+    private Integer roleOrder;
+
+    /**
+     * 角色编码
+     */
+    private String roleCode;
+
+    /**
      * 角色状态  0：可用   1：禁用
      */
     private Integer roleStatu;
 
-    public Integer getRoleId() {
-        return roleId;
-    }
+    @JsonSerialize(using = UnixConverterSerializer.class)
+    @JsonDeserialize(using = UnixConverterDeSerializer.class)
+    private Integer updateTime;
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-    public String getRoleName() {
-        return roleName;
-    }
+    @TableField(exist = false)
+    private List<Integer> permissions;
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-    public String getRoleDesc() {
-        return roleDesc;
-    }
-
-    public void setRoleDesc(String roleDesc) {
-        this.roleDesc = roleDesc;
-    }
-    public Integer getRoleStatu() {
-        return roleStatu;
-    }
-
-    public void setRoleStatu(Integer roleStatu) {
-        this.roleStatu = roleStatu;
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return this.roleId;
-    }
-
-    @Override
-    public String toString() {
-        return "Roles{" +
-            "roleId=" + roleId +
-            ", roleName=" + roleName +
-            ", roleDesc=" + roleDesc +
-            ", roleStatu=" + roleStatu +
-        "}";
-    }
 }

@@ -1,8 +1,18 @@
 package com.cdtu.simpleexamine.pojo.dbo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.cdtu.simpleexamine.serializer.UnixConverterDeSerializer;
+import com.cdtu.simpleexamine.serializer.UnixConverterSerializer;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +23,10 @@ import java.io.Serializable;
  * @author junan
  * @since 2019-10-15
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Permission extends Model<Permission> {
 
     private static final long serialVersionUID = 1L;
@@ -26,6 +40,11 @@ public class Permission extends Model<Permission> {
     private String permissionName;
 
     /**
+     * 所属模块
+     */
+    private Integer permissionModule;
+
+    /**
      * 权限的描述
      */
     private String permissionDesc;
@@ -35,47 +54,11 @@ public class Permission extends Model<Permission> {
      */
     private Integer permissionStatu;
 
-    public Integer getPermissionId() {
-        return permissionId;
-    }
+    @JsonSerialize(using = UnixConverterSerializer.class)
+    @JsonDeserialize(using = UnixConverterDeSerializer.class)
+    private Integer updateTime;
 
-    public void setPermissionId(Integer permissionId) {
-        this.permissionId = permissionId;
-    }
-    public String getPermissionName() {
-        return permissionName;
-    }
+    @TableField(exist = false)
+    private Module module = new Module();
 
-    public void setPermissionName(String permissionName) {
-        this.permissionName = permissionName;
-    }
-    public String getPermissionDesc() {
-        return permissionDesc;
-    }
-
-    public void setPermissionDesc(String permissionDesc) {
-        this.permissionDesc = permissionDesc;
-    }
-    public Integer getPermissionStatu() {
-        return permissionStatu;
-    }
-
-    public void setPermissionStatu(Integer permissionStatu) {
-        this.permissionStatu = permissionStatu;
-    }
-
-    @Override
-    protected Serializable pkVal() {
-        return this.permissionId;
-    }
-
-    @Override
-    public String toString() {
-        return "Permission{" +
-            "permissionId=" + permissionId +
-            ", permissionName=" + permissionName +
-            ", permissionDesc=" + permissionDesc +
-            ", permissionStatu=" + permissionStatu +
-        "}";
-    }
 }

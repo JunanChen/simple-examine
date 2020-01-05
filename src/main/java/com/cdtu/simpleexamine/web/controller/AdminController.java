@@ -1,6 +1,7 @@
 package com.cdtu.simpleexamine.web.controller;
 
 
+import com.cdtu.simpleexamine.pojo.dbo.Admin;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
 import com.cdtu.simpleexamine.pojo.vo.AdminVo;
 import com.cdtu.simpleexamine.pojo.vo.User;
@@ -87,4 +88,36 @@ public class AdminController {
         return adminService.changePassword(oldPassword, newPassword);
     }
 
+    @GetMapping("/{pageNo}/{pageSize}")
+    @ApiOperation(value = "分页")
+    public SystemBaseDto page(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
+        return adminService.page(pageNo, pageSize, null);
+    }
+
+    @GetMapping("/{pageNo}/{pageSize}/{search}")
+    @ApiOperation(value = "分页")
+    public SystemBaseDto page(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable String search) {
+        return adminService.page(pageNo, pageSize, search);
+    }
+
+    @PostMapping("/save")
+    @ApiOperation(value = "新增一个admin")
+    @RequiresRoles("dba")
+    public SystemBaseDto save(@RequestBody Admin admin) {
+        return adminService.save(admin);
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "更新一个admin")
+    @RequiresRoles("dba")
+    public SystemBaseDto update(@RequestBody Admin admin) {
+        return adminService.update(admin);
+    }
+
+    @PostMapping("/delete/{adminId}")
+    @ApiOperation(value = "删除一个admin")
+    @RequiresRoles("dba")
+    public SystemBaseDto delete(@PathVariable String adminId) {
+        return adminService.deleteById(adminId);
+    }
 }

@@ -26,6 +26,6 @@ public class UUIDTest {
 
     @Test
     public void md5test() {
-        System.out.println(MD5util.encryptString("chenjunan", "junan"));
+        System.out.println(MD5util.encryptString("123456", "e2b033a5a0cb4497a7e823dae6db3393"));
     }
 }

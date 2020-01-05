@@ -1,5 +1,8 @@
 package com.cdtu.simpleexamine.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cdtu.simpleexamine.pojo.dbo.Permission;
 import com.cdtu.simpleexamine.pojo.dbo.Roles;
 import com.cdtu.simpleexamine.mapper.RolesMapper;
@@ -9,6 +12,7 @@ import com.cdtu.simpleexamine.service.PermissionService;
 import com.cdtu.simpleexamine.service.RolesPermissionService;
 import com.cdtu.simpleexamine.service.RolesService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.cdtu.simpleexamine.utils.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,12 +82,38 @@ public class RolesServiceImpl extends ServiceImpl<RolesMapper, Roles> implements
         return SystemBaseDto.getOK();
     }
 
-    private SystemBaseDto update(Roles roles) {
-        int update = rolesMapper.updateById(roles);
-        if(update > 0)
-            return SystemBaseDto.getOK();
-        else
-            return SystemBaseDto.getFAIL();
+    @Override
+    public SystemBaseDto search(Integer pageNo, Integer pageSize, String search) {
+        Page<Roles> page = new Page<>(pageNo, pageSize);
+        QueryWrapper<Roles> queryWrapper = new QueryWrapper<>();
+        if (search != null && !search.isEmpty()) {
+            queryWrapper.eq("role_name", search);
+        }
+        queryWrapper.orderByAsc("role_order");
+        IPage<Roles> page1 = rolesMapper.selectByPage(page, queryWrapper);
+        return SystemBaseDto.getOK(page1, null);
+    }
+
+    public SystemBaseDto update(Roles roles) {
+        roles.setUpdateTime((int) TimeUtil.getTimeStamp());
+        rolesMapper.updateById(roles);
+        List<Integer> permissions = roles.getPermissions();
+
+        rolesPermissionService.deleteByRolesId(roles.getRoleId());
+
+        for (Integer permission : permissions) {
+            RolesPermission rolesPermission = new RolesPermission();
+            rolesPermission.setPermissionId(permission);
+            rolesPermission.setRoleId(roles.getRoleId());
+            rolesPermissionService.save(rolesPermission);
+        }
+        return SystemBaseDto.getOK();
+    }
+
+    @Override
+    public SystemBaseDto deleteById(Integer roleId) {
+        rolesMapper.deleteById(roleId);
+        return SystemBaseDto.getOK();
     }
 
     private SystemBaseDto getList(List list) {

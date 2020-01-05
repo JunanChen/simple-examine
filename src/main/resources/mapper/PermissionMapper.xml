@@ -6,8 +6,14 @@
     <resultMap id="BaseResultMap" type="com.cdtu.simpleexamine.pojo.dbo.Permission">
         <id column="permission_id" property="permissionId" />
         <result column="permission_name" property="permissionName" />
+        <result column="permission_module" property="permissionModule"/>
         <result column="permission_desc" property="permissionDesc" />
         <result column="permission_statu" property="permissionStatu" />
+        <result column="update_time" property="updateTime"/>
+        <association property="module" javaType="com.cdtu.simpleexamine.pojo.dbo.Module">
+            <id column="module_id" property="moduleId"/>
+            <result column="module_name" property="moduleName"/>
+        </association>
     </resultMap>
 
     <select id="selectListByAdminId" parameterType="String" resultMap="BaseResultMap">
@@ -27,6 +33,13 @@
              and r.role_id = rp.role_id
              and r.role_id = #{roleId}
         </where>
+    </select>
+
+    <select id="selectByPage" resultMap="BaseResultMap">
+        select p.permission_id, p.permission_name, p.permission_module, p.permission_desc, p.permission_statu, p.update_time, m.module_id, m.module_name
+        from permission p
+        left join module m on p.permission_module = m.module_id
+        ${ew.customSqlSegment}
     </select>
 
 </mapper>

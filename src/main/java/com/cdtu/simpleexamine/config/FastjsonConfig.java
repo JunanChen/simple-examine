@@ -22,6 +22,7 @@ import java.util.List;
  * 需要自己动手配置
  */
 //@Configuration
+@Deprecated
 public class FastjsonConfig{
 
     @Bean

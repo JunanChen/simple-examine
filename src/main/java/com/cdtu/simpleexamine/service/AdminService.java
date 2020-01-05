@@ -43,4 +43,15 @@ public interface AdminService {
     @Transactional
     SystemBaseDto updateInfo(AdminVo adminVo);
 
+    SystemBaseDto page(Integer pageNo, Integer pageSize, String search);
+
+    @Transactional
+    SystemBaseDto save(Admin admin);
+
+    @Transactional
+    SystemBaseDto update(Admin admin);
+
+    @Transactional
+    SystemBaseDto deleteById(String adminId);
+
 }

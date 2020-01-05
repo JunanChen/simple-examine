@@ -27,4 +27,13 @@ public class MD5util {
         return new Md5Hash(password, ByteSource.Util.bytes(salt + ""), 3).toString();
     }
 
+    /**
+     * 获取随机盐
+     *
+     * @return
+     */
+    public static String getRandomSalt() {
+        return UUIDUtil.get32UUID();
+    }
+
 }

@@ -26,9 +26,9 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:8808").allowCredentials(true).allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
-                .maxAge(3600);
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**").allowedOrigins("http://localhost:8808").allowCredentials(true).allowedMethods("*")
+//                .maxAge(3600);
+//    }
 }
