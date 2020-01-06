@@ -140,4 +140,17 @@ public class EquFailServiceImpl extends ServiceImpl<EquFailMapper, EquFail> impl
             return SystemBaseDto.getOK();
         return SystemBaseDto.getFAIL();
     }
+
+    @Override
+    public Long getNumsByToDay() {
+        Long todayUnix = TimeUtil.getTodayUnix();
+        Long nextDayUnix = TimeUtil.getNextDayUnix();
+
+        QueryWrapper<EquFail> wrapper = new QueryWrapper();
+        wrapper.ge("fail_appear_time", todayUnix).le("fail_appear_time", nextDayUnix);
+
+        Integer integer = equFailMapper.selectCount(wrapper);
+
+        return Long.valueOf(integer);
+    }
 }

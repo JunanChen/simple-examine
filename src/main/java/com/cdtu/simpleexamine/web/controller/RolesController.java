@@ -42,7 +42,7 @@ public class RolesController {
     @GetMapping("/permissions/add/{roleId}")
     @ApiOperation(value = "为角色添加权限", notes = "需要dba权限")
     @RequiresRoles("dba")
-    public SystemBaseDto addPermissions(@PathVariable Integer roleId, List<Permission> permissions) {
+    public SystemBaseDto addPermissions(@PathVariable Integer roleId, @RequestBody List<Permission> permissions) {
         return rolesService.addPermissions(roleId, permissions);
     }
 
@@ -73,7 +73,7 @@ public class RolesController {
     }
 
     @PostMapping("/update")
-    @ApiOperation(value = "启用角色", notes = "需要dba角色")
+    @ApiOperation(value = "更新角色", notes = "需要dba角色")
     @RequiresRoles("dba")
     public SystemBaseDto update(@RequestBody Roles roles) {
         return rolesService.update(roles);

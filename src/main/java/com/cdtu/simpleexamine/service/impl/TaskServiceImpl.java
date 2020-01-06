@@ -167,5 +167,27 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
         }
         return task;
     }
-    
+
+    @Override
+    public Long getNumsByToday() {
+
+        Integer integer = taskMapper.selectCount(getTodayWrapper());
+        return Long.valueOf(integer);
+    }
+
+    @Override
+    public Long getNumsByTodayWorked() {
+        QueryWrapper queryWrapper = getTodayWrapper();
+        queryWrapper.eq("task_stat", 2);
+        Integer integer = taskMapper.selectCount(queryWrapper);
+        return Long.valueOf(integer);
+    }
+
+    private QueryWrapper getTodayWrapper() {
+        Long todayUnix = TimeUtil.getTodayUnix();
+        Long nextDayUnix = TimeUtil.getNextDayUnix();
+        QueryWrapper<Task> queryWrapper = new QueryWrapper();
+        queryWrapper.ge("create_time", todayUnix).le("create_time", nextDayUnix);
+        return queryWrapper;
+    }
 }

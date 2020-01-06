@@ -1,5 +1,8 @@
 package com.cdtu.simpleexamine.utils;
 
+import org.joda.time.DateTime;
+
+import javax.xml.crypto.Data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,22 +17,24 @@ public class TimeUtil {
     /**
      * 日期格式1
      */
-    public static final String DETA_FORMAT_1 = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_FORMAT_1 = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 日期格式2
      */
-    public static final String DETA_FORMAT_2 = "yyyy-MM-dd";
+    public static final String DATE_FORMAT_2 = "yyyy-MM-dd";
 
     /**
      * 日期格式3
      */
-    public static final String DETA_FORMAT_3 = "yyyy年MM月dd日";
+    public static final String DATE_FORMAT_3 = "yyyy年MM月dd日";
 
     /**
      * 日期格式2
      */
-    public static final String DETA_FORMAT_4 = "yyyyMMdd";
+    public static final String DATE_FORMAT_4 = "yyyyMMdd";
+
+    public static final long ONE_SECOND = 1000l;
 
 
     /**
@@ -37,7 +42,7 @@ public class TimeUtil {
      * @return
      */
     public static long getTimeStamp(){
-        return System.currentTimeMillis()/1000;
+        return System.currentTimeMillis() / ONE_SECOND;
     }
 
 
@@ -100,7 +105,7 @@ public class TimeUtil {
      * @return
      */
     public static String simpleDateTotimeStamp(String date){
-        return dateTotimeStamp(date, DETA_FORMAT_1);
+        return dateTotimeStamp(date, DATE_FORMAT_1);
     }
 
     /**
@@ -109,7 +114,7 @@ public class TimeUtil {
      * @return
      */
     public static Integer dateToStampWithSimple(String date){
-        return Integer.valueOf(dateTotimeStamp(date, DETA_FORMAT_2));
+        return Integer.valueOf(dateTotimeStamp(date, DATE_FORMAT_2));
     }
 
     /**
@@ -118,9 +123,48 @@ public class TimeUtil {
      * @return
      */
     public static String getDate() {
-        return timeStampToSimpleDate(String.valueOf(getTimeStamp()), DETA_FORMAT_4);
+        return timeStampToSimpleDate(String.valueOf(getTimeStamp()), DATE_FORMAT_4);
     }
 
+    /**
+     * 获取当前日期对象
+     *
+     * @return
+     */
+    public static Date nowDate() {
+        return new Date();
+    }
 
+    /**
+     * 通过日期对象获取unix
+     *
+     * @param date
+     * @param format
+     * @return
+     */
+    public static Long getUnixByDate(Date date, String format) {
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        String format1 = df.format(date);
+        return Long.valueOf(dateTotimeStamp(format1, format));
+    }
+
+    /**
+     * 获取今天的unix
+     *
+     * @return
+     */
+    public static Long getTodayUnix() {
+        return getUnixByDate(nowDate(), DATE_FORMAT_2);
+    }
+
+    /**
+     * 获取明天的unix
+     *
+     * @return
+     */
+    public static Long getNextDayUnix() {
+        DateTime dateTime1 = new DateTime(nowDate()).plusDays(1);
+        return getUnixByDate(dateTime1.toDate(), DATE_FORMAT_2);
+    }
 
 }

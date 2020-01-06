@@ -38,4 +38,18 @@ public interface TaskService extends IService<Task> {
 
     @Transactional(readOnly = false)
     SystemBaseDto update(TaskVo taskVo);
+
+    /**
+     * 获取巡检任务的数量
+     *
+     * @return
+     */
+    Long getNumsByToday();
+
+    /**
+     * 获取今日已巡检的任务数量
+     *
+     * @return
+     */
+    Long getNumsByTodayWorked();
 }

@@ -50,8 +50,6 @@ public class NotLoginFilter extends UserFilter {
     protected void saveRequestAndRedirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
 
         HttpServletRequest request1 = (HttpServletRequest) request;
-        System.out.println(request1.getRequestURL());
-//        if(!request1.getRequestURL().contains("druid")) {
         saveRequest(request);
         setHeader((HttpServletRequest) request, (HttpServletResponse) response);
         PrintWriter out = response.getWriter();
@@ -59,7 +57,6 @@ public class NotLoginFilter extends UserFilter {
         out.println(FastJsonUtil.toJSONString(systemBaseDto));
         out.flush();
         out.close();
-//        }
     }
 
     /**

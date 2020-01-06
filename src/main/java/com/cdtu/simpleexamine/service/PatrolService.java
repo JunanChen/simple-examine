@@ -42,4 +42,11 @@ public interface PatrolService extends IService<Patrol> {
 
     SystemBaseDto allBySearch(String search, Integer pageNow, Integer pageSize);
 
+    /**
+     * 获取全部巡检数据数目
+     *
+     * @return
+     */
+    Long getNums();
+
 }

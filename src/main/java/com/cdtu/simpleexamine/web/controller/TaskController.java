@@ -5,6 +5,7 @@ import com.cdtu.simpleexamine.pojo.dbo.Task;
 import com.cdtu.simpleexamine.pojo.dto.SystemBaseDto;
 import com.cdtu.simpleexamine.pojo.vo.TaskVo;
 import com.cdtu.simpleexamine.service.TaskService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/task")
+@Api
 public class TaskController {
 
     @Autowired

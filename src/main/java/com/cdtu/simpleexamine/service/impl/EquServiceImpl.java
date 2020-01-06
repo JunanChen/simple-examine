@@ -175,4 +175,8 @@ public class EquServiceImpl extends ServiceImpl<EquMapper, Equ> implements EquSe
         return equ;
     }
 
+    @Override
+    public Long getNums() {
+        return Long.valueOf(equMapper.selectCount(null));
+    }
 }

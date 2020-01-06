@@ -41,4 +41,12 @@ public interface EquService extends IService<Equ> {
 
     @Deprecated
     SystemBaseDto all();
+
+    /**
+     * 总设备数
+     *
+     * @return
+     */
+    Long getNums();
+
 }

@@ -80,5 +80,5 @@ system:
 #日志配置
 logging:
   level:
-    root: warn
+    root: info
 #  path:                 #配置日志输出位置

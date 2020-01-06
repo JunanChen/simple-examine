@@ -157,4 +157,9 @@ public class PatrolServiceImpl extends ServiceImpl<PatrolMapper, Patrol> impleme
         }
         return patrol;
     }
+
+    @Override
+    public Long getNums() {
+        return Long.valueOf(patrolMapper.selectCount(null));
+    }
 }
