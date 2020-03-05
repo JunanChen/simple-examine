@@ -83,7 +83,7 @@ public class DefaultHeaderSessionManager extends DefaultSessionManager implement
 
             if (StringUtils.isNotEmpty(sessionId)) {
                 httpResponse.setHeader(this.X_AUTH_TOKEN, sessionId);
-                log.info("Current session ID is {}", sessionId);
+//                log.info("Current session ID is {}", sessionId);
             }
 
             return sessionId;
@@ -124,9 +124,9 @@ public class DefaultHeaderSessionManager extends DefaultSessionManager implement
 
             response.setHeader(this.X_AUTH_TOKEN, idString);
 
-            log.info("Set session ID header for session with id {}", idString);
+//            log.info("Set session ID header for session with id {}", idString);
 
-            log.trace("Set session ID header for session with id {}", idString);
+//            log.trace("Set session ID header for session with id {}", idString);
         }
     }
 

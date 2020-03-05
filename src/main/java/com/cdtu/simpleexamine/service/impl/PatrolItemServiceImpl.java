@@ -3,6 +3,7 @@ package com.cdtu.simpleexamine.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cdtu.simpleexamine.exception.BatchDeleteException;
+import com.cdtu.simpleexamine.generator.IDGenerator;
 import com.cdtu.simpleexamine.pojo.Page;
 import com.cdtu.simpleexamine.pojo.dbo.PatrolItem;
 import com.cdtu.simpleexamine.mapper.PatrolItemMapper;

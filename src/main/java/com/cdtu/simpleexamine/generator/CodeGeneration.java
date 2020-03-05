@@ -1,4 +1,4 @@
-package com.cdtu.simpleexamine.generation;
+package com.cdtu.simpleexamine.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
