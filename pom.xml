@@ -22,7 +22,7 @@
         <fastjson.version>1.2.58</fastjson.version>
         <druid.version>1.1.17</druid.version>
         <mybatisplus-generation.version>3.2.0</mybatisplus-generation.version>
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.7.0</shiro.version>
         <lombok.version>1.18.8</lombok.version>
     </properties>
 
