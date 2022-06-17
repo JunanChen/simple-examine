@@ -19,7 +19,7 @@
         <mysql-driver.version>8.0.17</mysql-driver.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <swagger.version>2.9.2</swagger.version>
-        <fastjson.version>1.2.58</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <druid.version>1.1.17</druid.version>
         <mybatisplus-generation.version>3.2.0</mybatisplus-generation.version>
         <shiro.version>1.4.0</shiro.version>
